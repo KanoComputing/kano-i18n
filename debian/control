@@ -1,0 +1,11 @@
+Source: kano-i18n
+Maintainer: Team Kano <dev@kano.me>
+Section: utils
+Priority: optional
+Standards-Version: 3.9.4
+Build-Depends: debhelper (>=9.0.0), python-setuptools
+
+Package: kano-i18n
+Architecture: all
+Depends: ${misc:Depends}
+Description: i18n utilities for Kano OS
