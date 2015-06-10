@@ -1,4 +1,3 @@
-#
 # init.py
 #
 # Copyright (C) 2015 Kano Computing Ltd.
