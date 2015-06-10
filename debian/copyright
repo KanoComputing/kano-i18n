@@ -1,3 +1,8 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Kano i18n
+Upstream-Contact: Kano developers <dev@kano.me>
+Source: https://github.com/KanoComputing/kano-i18n
+
 Files: *
 Copyright: 2015 Kano Computing Ltd.
 License: GPL-2+
