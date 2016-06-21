@@ -1,0 +1,189 @@
+escape_char /
+comment_char %
+% Locale for English locale for test purposes
+% Contributed by Team Kano <dev@kano.me>, 2016
+
+LC_IDENTIFICATION
+title      "English locale for test purposes (copy  of en_US)"
+source     "Kano Computing"
+address    "developers.kano.me"
+contact    ""
+email      "dev@kano.me"
+tel        ""
+fax        ""
+language   "English"
+territory  "QQ"
+revision   "1.0"
+date       "2016-06-21"
+%
+category  "en_QQ:2000";LC_IDENTIFICATION
+category  "en_QQ:2000";LC_CTYPE
+category  "en_QQ:2000";LC_COLLATE
+category  "en_QQ:2000";LC_TIME
+category  "en_QQ:2000";LC_NUMERIC
+category  "en_QQ:2000";LC_MONETARY
+category  "en_QQ:2000";LC_MESSAGES
+category  "en_QQ:2000";LC_PAPER
+category  "en_QQ:2000";LC_NAME
+category  "en_QQ:2000";LC_ADDRESS
+category  "en_QQ:2000";LC_TELEPHONE
+category  "en_QQ:2000";LC_MEASUREMENT
+END LC_IDENTIFICATION
+
+LC_CTYPE
+copy "en_GB"
+END LC_CTYPE
+
+LC_COLLATE
+
+% Copy the template from ISO/IEC 14651
+copy "iso14651_t1"
+
+END LC_COLLATE
+
+LC_MONETARY
+int_curr_symbol     "<U0055><U0053><U0044><U0020>"
+currency_symbol     "<U0024>"
+mon_decimal_point   "<U002E>"
+mon_thousands_sep   "<U002C>"
+mon_grouping        3;3
+positive_sign       ""
+negative_sign       "<U002D>"
+int_frac_digits     2
+frac_digits         2
+p_cs_precedes       1
+int_p_sep_by_space  1
+p_sep_by_space      0
+n_cs_precedes       1
+int_n_sep_by_space  1
+n_sep_by_space      0
+p_sign_posn         1
+n_sign_posn         1
+%
+END LC_MONETARY
+
+LC_NUMERIC
+decimal_point   "<U002E>"
+thousands_sep   "<U002C>"
+grouping        3;3
+END LC_NUMERIC
+
+LC_TIME
+abday	"<UFF33><UFF55><U006E>";"<U004D><U006F><U006E>";/
+	"<UFF34><UFF55><UFF45>";"<UFF37><UFF45><UFF44>";/
+	"<UFF34><UFF48><UFF55>";"<UFF26><UFF52><UFF49>";/
+	"<UFF33><UFF41><UFF54>"
+day	"<UFF33><UFF55><U006E><UFF44><UFF41><UFF59>";/
+	"<U004D><U006F><U006E><UFF44><UFF41><UFF59>";/
+	"<UFF34><UFF55><UFF45><UFF53><UFF44><UFF41><UFF59>";/
+	"<UFF37><UFF45><UFF44><U006E><UFF45><UFF53><UFF44><UFF41><UFF59>";/
+	"<UFF34><UFF48><UFF55><UFF52><UFF53><UFF44><UFF41><UFF59>";/
+	"<UFF26><UFF52><UFF49><UFF44><UFF41><UFF59>";/
+	"<UFF33><UFF41><UFF54><UFF55><UFF52><UFF44><UFF41><UFF59>"
+
+week    7;19971130;7
+first_weekday	1
+first_workday	2
+abmon	"<U004A><UFF41><U006E>";"<UFF26><UFF45><UFF42>";/
+	"<U004D><UFF41><UFF52>";"<UFF21><UFF50><UFF52>";/
+	"<U004D><UFF41><UFF59>";"<U004A><UFF55><U006E>";/
+	"<U004A><UFF55><U006C>";"<UFF21><UFF55><UFF47>";/
+	"<UFF33><UFF45><UFF50>";"<U004F><UFF43><UFF54>";/
+	"<U004E><U006F><UFF56>";"<UFF24><UFF45><UFF43>"
+mon	"<U004A><UFF41><U006E><UFF55><UFF41><UFF52><UFF59>";/
+	"<UFF26><UFF45><UFF42><UFF52><UFF55><UFF41><UFF52><UFF59>";/
+	"<U004D><UFF41><UFF52><UFF43><UFF48>";/
+	"<UFF21><UFF50><UFF52><UFF49><U006C>";/
+	"<U004D><UFF41><UFF59>";/
+	"<U004A><UFF55><U006E><UFF45>";/
+	"<U004A><UFF55><U006C><UFF59>";/
+	"<UFF21><UFF55><UFF47><UFF55><UFF53><UFF54>";/
+	"<UFF33><UFF45><UFF50><UFF54><UFF45><U006D><UFF42><UFF45><UFF52>";/
+	"<U004F><UFF43><UFF54><U006F><UFF42><UFF45><UFF52>";/
+	"<U004E><U006F><UFF56><UFF45><U006D><UFF42><UFF45><UFF52>";/
+	"<UFF24><UFF45><UFF43><UFF45><U006D><UFF42><UFF45><UFF52>"
+% Appropriate date and time representation (%c)
+%	"%a %d %b %Y %r %Z"
+d_t_fmt "<U0025><UFF41><U0020><U0025><UFF44><U0020><U0025><UFF42><U0020><U0025><UFF39><U0020><U0025><UFF52><U0020><U0025><U005A>"
+%
+% Appropriate date representation (%x)
+%	"%m/%d/%Y"
+d_fmt   "<U0025><U006D><U002F><U0025><UFF44><U002F><U0025><UFF39>"
+%
+% Appropriate time representation (%X)
+%	"%r"
+t_fmt   "<U0025><UFF52>"
+%
+% Appropriate AM/PM time representation (%r)
+%	"%I:%M:%S %p"
+t_fmt_ampm "<U0025><UFF29><U003A><U0025><U004D><U003A><U0025><UFF33><U0020>/
+<U0025><UFF50>"
+%
+% Strings for AM/PM
+%
+am_pm	"<UFF21><U004D>";"<UFF30><U004D>"
+%
+% Appropriate date representation (date(1))   "%a %b %e %H:%M:%S %Z %Y"
+date_fmt	"<U0025><UFF41><U0020><U0025><UFF42><U0020><U0025><UFF45>/
+<U0020><U0025><UFF28><U003A><U0025><U004D><U003A><U0025><UFF33><U0020>/
+<U0025><U005A><U0020><U0025><UFF39>"
+END LC_TIME
+
+LC_MESSAGES
+yesexpr "<U005E><U005B><UFF59><UFF39><U005D><U002E><U002A>"
+noexpr  "<U005E><U005B><U006E><U004E><U005D><U002E><U002A>"
+yesstr  "<UFF39><UFF45><UFF53>"
+nostr   "<U004E><U006F>"
+END LC_MESSAGES
+
+LC_PAPER
+height   279
+width    216
+END LC_PAPER
+
+LC_NAME
+name_fmt    "<U0025><U0064><U0025><U0074><U0025><U0067><U0025><U0074>/
+<U0025><U006D><U0025><U0074><U0025><U0066>"
+name_miss   "<U004D><U0069><U0073><U0073><U002E>"
+name_mr     "<U004D><U0072><U002E>"
+name_mrs    "<U004D><U0072><U0073><U002E>"
+name_ms     "<U004D><U0073><U002E>"
+END LC_NAME
+
+
+LC_ADDRESS
+postal_fmt    "<U0025><U0061><U0025><U004E><U0025><U0066><U0025><U004E>/
+<U0025><U0064><U0025><U004E><U0025><U0062><U0025><U004E><U0025><U0068>/
+<U0020><U0025><U0073><U0020><U0025><U0065><U0020><U0025><U0072><U0025>/
+<U004E><U0025><U0054><U002C><U0020><U0025><U0053><U0020><U0025><U007A><U0025>/
+<U004E><U0025><U0063><U0025><U004E>"
+country_name  "<U0055><U0053><U0041>"
+country_post  "<U0055><U0053><U0041>"
+country_ab2   "<U0055><U0053>"
+country_ab3   "<U0055><U0053><U0041>"
+country_num   840
+% USA
+country_car   "<U0055><U0053><U0041>"
+country_isbn  0
+% English
+lang_name     "<U0045><U006E><U0067><U006C><U0069><U0073><U0068>"
+% en
+lang_ab      "<U0065><U006E>"
+% eng
+lang_term    "<U0065><U006E><U0067>"
+% eng
+lang_lib    "<U0065><U006E><U0067>"
+END LC_ADDRESS
+
+LC_TELEPHONE
+tel_int_fmt    "<U002B><U0025><U0063><U0020><U0028><U0025><U0061><U0029>/
+<U0020><U0025><U006C>"
+tel_dom_fmt    "<U0028><U0025><U0061><U0029><U0020><U0025><U006C>"
+int_select     "<U0031><U0031>"
+int_prefix     "<U0031>"
+END LC_TELEPHONE
+
+LC_MEASUREMENT
+% US customary units
+measurement    2
+END LC_MEASUREMENT
