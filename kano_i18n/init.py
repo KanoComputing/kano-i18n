@@ -9,8 +9,23 @@
 import gettext
 import __builtin__
 
+
 def install(app, locale_dir=None):
+    if '_' in __builtin__.__dict__:
+        raise Exception("Attempt to install gettext twice")
+
     # N_() defined globally for deferred translation
     __builtin__.__dict__['N_'] = lambda msg: msg
 
     gettext.install(app, localedir=locale_dir, unicode=1)
+
+
+def library_install(module_domain, locale_dir=None):
+    """
+    Perform bindings for gettext use in shared libraries
+
+    """
+
+    if locale_dir:
+        gettext.bindtextdomain(module_domain, locale_dir)
+    gettext.bind_textdomain_codeset(module_domain, 'UTF-8')

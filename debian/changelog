@@ -1,3 +1,9 @@
+kano-i18n (3.3.0-1) unstable; urgency=low
+
+  * Add 'library_install' function for use in modules which are used by multiple apps.
+
+ -- Team Kano <dev@kano.me>  Wed, 10 Jun 2015 10:42:00 +0000
+
 kano-i18n (1.0-1) unstable; urgency=low
 
   * Initial release.
