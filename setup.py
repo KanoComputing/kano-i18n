@@ -15,5 +15,6 @@ setup(
     author='Team Kano',
     author_email='dev@kano.me',
     url='https://github.com/KanoComputing/kano-i18n',
-    packages=['kano_i18n']
+    packages=['kano_i18n'],
+    data_files=[('/usr/share/i18n/locales/', ['dev_locale/en_QQ'])]
 )

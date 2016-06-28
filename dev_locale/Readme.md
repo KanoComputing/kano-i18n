@@ -15,7 +15,7 @@ To generate locale data for an app:
 generate the file `messages.pot` from the soucre code, then run:
 `fake_locale messages.pot en_QQ.po` to generate the new po file.
 
-Follow the isntructions in TRANSLATION.md for that app to add the po file.
+Follow the instructions in TRANSLATION.md for that app to add the po file.
 
 
 
