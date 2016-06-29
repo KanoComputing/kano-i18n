@@ -61,23 +61,119 @@ def trans_char(c):
         return english_lower_wide[ord(c)-ord('a')]
     elif english_upper.match(c):
         return english_upper_wide[ord(c)-ord('A')]
+    elif c == ' ':
+        return '  '
     else:
         return c
 
 
-def trans_str(msgstr):
+class printf_escape:
+    def __init__(self):
+        self.last_escape = False
+
+    def okay(self, char):
+        res = not self.last_escape
+        self.last_escape = char == '%'
+        return res
+
+
+class python_brace_escape:
+    """
+    Don't translate char inside  {}, but ignore doubled {{ or }}
+    """
+
+    TRANSLATING = 0
+    SEEN_OPENING_BRACE = 1
+    INSIDE_BRACES = 2
+    SEEN_CLOSING_BRACE = 3
+
+    def __init__(self):
+        self.state = self.TRANSLATING
+
+        # value of state after parsing char above it:
+
+        # "xxx{fo}}o}yyy"
+        #  0001223223000
+
+        # "xxx{{foo}}yyy"
+        #  0001000000000
+
+    def okay(self, char):
+        if self.state == self.TRANSLATING:
+            if char == '{':
+                self.state = self.SEEN_OPENING_BRACE
+        elif self.state == self.SEEN_OPENING_BRACE:
+            if char == '{':
+                self.state = self.TRANSLATING
+            else:
+                self.state = self.INSIDE_BRACES
+        elif self.state == self.INSIDE_BRACES:
+            if char == '}':
+                self.state = self.SEEN_CLOSING_BRACE
+        elif self.state == self.SEEN_CLOSING_BRACE:
+            if char == '}':
+                self.state = self.INSIDE_BRACES
+            else:
+                self.state = self.TRANSLATING
+        return self.state == self.TRANSLATING
+
+
+class sh_escape:
+    TRANSLATING = 0
+    DOLLAR_LAST_CHAR = 1
+    INSIDE_DOLLAR_NAME = 2
+    INSIDE_BRACE_NAME = 3
+
+    def __init__(self):
+        """
+        Don't translate $variable_name or ${variable_name}
+        """
+        self.state = self.TRANSLATING
+
+        # value of state after parsing char above it:
+        # "xxx$variable,dfff"
+        #  00012222222200000
+
+        # "xxx${variable}dff"
+        #  00013333333330000
+
+    def okay(self, char):
+        if self.state == self.TRANSLATING:
+            if char == '$':
+                self.state = self.DOLLAR_LAST_CHAR
+        elif self.state == self.DOLLAR_LAST_CHAR:
+            if char == '{':
+                self.state = self.INSIDE_BRACE_NAME
+            else:
+                self.state = self.INSIDE_DOLLAR_NAME
+        elif self.state == self.INSIDE_DOLLAR_NAME:
+            if not (char.isalnum() or char == '_'):
+                self.state = self.TRANSLATING
+        elif self.state == self.INSIDE_BRACE_NAME:
+            if char == '}':
+                self.state = self.TRANSLATING
+        return self.state == self.TRANSLATING
+
+
+def trans_str(msgstr, flags):
     out = []
-    lastc = ''
+    if 'sh-format' in flags:
+        checker = sh_escape()
+    elif 'python-brace-format' in flags:
+        checker = python_brace_escape()
+    else:
+        checker = printf_escape()
+
     for c in msgstr:
-        if lastc != '%':
+        if checker.okay(c):
             out.append(trans_char(c))
         else:
             out.append(c)
-        lastc = c
+
     return u''.join(out)
 
 for entry in po:
-    entry.msgstr = trans_str(entry.msgid)
+    entry.msgstr = trans_str(entry.msgid, entry.flags)
     new.append(entry)
 
 new.save(outFile)
