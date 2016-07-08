@@ -16,6 +16,11 @@ import time
 import re
 
 # Get command line arguments
+tags = False
+if '-tags' in sys.argv:
+    del sys.argv[sys.argv.index('-tags')]
+    tags = True
+
 if len(sys.argv) < 3:
     print "Usage: fake-locale messages.pot en_QQ.po"
 
@@ -179,6 +184,22 @@ class sh_escape:
         return self.state == self.TRANSLATING
 
 
+class tag_escape:
+    """
+    Don't translate insice '<>'. Also and with any other checker
+    """
+    def __init__(self, checker):
+        self.bracket_count = 0
+        self.checker = checker
+
+    def okay(self, char):
+        if char == '<':
+            self.bracket_count = self.bracket_count + 1
+        elif char == '>':
+            self.bracket_count = max(self.bracket_count - 1, 0)
+        return self.checker.okay(char) and self.bracket_count == 0
+
+
 def trans_str(msgstr, flags):
     """
     Translate a whole string to wide latin, skipping special codes
@@ -194,6 +215,10 @@ def trans_str(msgstr, flags):
         checker = python_brace_escape()
     else:
         checker = printf_escape()
+
+    # For html-like tags
+    if tags:
+        checker = tag_escape(checker)
 
     for c in msgstr:
         if checker.okay(c):
