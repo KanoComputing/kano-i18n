@@ -161,7 +161,7 @@ class ShEscape:
 
 class TagEscape:
     """
-    Don't translate insice '<>'. Also and with any other checker
+    Don't translate inside '<>'. Also and with any other checker
     """
     def __init__(self, checker):
         self.bracket_count = 0
