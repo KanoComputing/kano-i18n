@@ -23,25 +23,45 @@ def trans_char(c):
         return c
 
 
-#  The following classes are all state machines which identify
+# The following classes are all state machines which identify
 # which characters of a string are okay to translate.
 # They expect to be fed the string one character at a time.
 
-class PrintfEscape:
-    """
-    Don't translate
-    """
+class DefaultEscape:
+    TRANSLATING = 0
+    INSIDE_FORMAT_DEFINITION = 1
+    SEEN_ESCAPE_CHARACTER = 2
+
     def __init__(self):
-        self.last_escape = False
+        self.state = self.TRANSLATING
 
     def okay(self, char):
         """
         Return True if this is a format specifier character
         Eg, the 's' in %s
         """
-        res = not self.last_escape
-        self.last_escape = char == '%'
-        return res
+
+        if self.state == self.TRANSLATING:
+            if char == '%':
+                self.state = self.SEEN_ESCAPE_CHARACTER
+                return False
+            if char == '{':
+                self.state = self.INSIDE_FORMAT_DEFINITION
+                return False
+            return True
+
+        if self.state == self.SEEN_ESCAPE_CHARACTER:
+            if char != '%':
+                self.state = self.TRANSLATING
+                return False
+
+        if self.state == self.INSIDE_FORMAT_DEFINITION:
+            if char == ':':
+                # end of format definition
+                self.state = self.TRANSLATING
+            return False
+
+        raise Exception('Invalid state')
 
 
 class PythonBraceEscape:
@@ -163,7 +183,7 @@ def trans_str(msgstr, flags):
     elif 'python-brace-format' in flags:
         checker = PythonBraceEscape()
     else:
-        checker = PrintfEscape()
+        checker = DefaultEscape()
 
     # For html-like tags
     if tags:
