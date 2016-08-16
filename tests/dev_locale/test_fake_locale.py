@@ -16,3 +16,13 @@ def test_custom_format_str():
     assert (
         trans_str("{{gb:Hi %s!}}", {}) == u"{{gb:Ｈｉ  %s!}}"
     )
+
+
+def test_format_str_tags():
+    assert (
+        trans_str("Hello <world>!", {}) == u"Ｈｅｌｌｏ  <ｗｏｒｌｄ>!"
+    )
+
+    assert (
+        trans_str("Hello <world>!", {}, tags=True) == u"Ｈｅｌｌｏ  <world>!"
+    )

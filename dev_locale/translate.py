@@ -17,8 +17,6 @@ english_upper = re.compile('[A-Z]')
 english_lower_wide = u'ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ'
 english_upper_wide = u'ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ'
 
-tags = False
-
 
 def trans_char(c):
     if english_lower.match(c):
@@ -177,7 +175,7 @@ class TagEscape:
         return self.checker.okay(char) and self.bracket_count == 0
 
 
-def trans_str(msgstr, flags):
+def trans_str(msgstr, flags, tags=False):
     """
     Translate a whole string to wide latin, skipping special codes
     """
