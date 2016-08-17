@@ -17,6 +17,11 @@ def test_custom_format_str():
         trans_str("{{gb:Hi %s!}}", {}) == u"{{gb:Ｈｉ  %s!}}"
     )
 
+    # Shouldn't affect colours-cli formatting
+    assert (
+        trans_str("{{3Hi!}} world", {}) == u"{{3Ｈｉ!}}  ｗｏｒｌｄ"
+    )
+
 
 def test_format_str_tags():
     assert (

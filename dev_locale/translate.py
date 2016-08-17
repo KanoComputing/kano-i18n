@@ -62,9 +62,14 @@ class DefaultEscape:
                 return False
 
         if self.state == self.INSIDE_FORMAT_DEFINITION:
-            if char == ':':
+            if char == ':' or char == '}':
                 # end of format definition
                 self.state = self.TRANSLATING
+
+            # support for colours-cli (kano-toolset) formatting
+            if char in "0123456789":
+                self.state = self.TRANSLATING
+
             return False
 
         raise Exception('Invalid state')
