@@ -37,7 +37,7 @@ def test_env():
 
 
 def setup_function(function):
-    # Clear global variables
+    # Clear global variables before each test
     kano_i18n.init.REGISTERED_DOMAINS.clear()
     kano_i18n.CURRENT_TRANSLATION = None
 
@@ -74,23 +74,20 @@ def test_register_domain_fallback_duplicate():
 
     install('app-domain')
 
-    register_domain('domain-1')
-
-    # inspect domain setup
     current_translation = get_current_translation()
     assert current_translation is not None
+    assert current_translation._fallback is None
+
+    register_domain('domain-1')
     assert current_translation._fallback is not None
     assert current_translation._fallback._fallback is None
 
     # register domain again
     register_domain('domain-1')
-    current_translation = get_current_translation()
     assert current_translation._fallback is not None
     assert current_translation._fallback._fallback is None
 
     # register different domain
     register_domain('domain-2')
-
-    current_translation = get_current_translation()
     assert current_translation._fallback is not None
     assert current_translation._fallback._fallback is not None

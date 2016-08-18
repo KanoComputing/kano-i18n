@@ -34,7 +34,7 @@ def register_domain(domain, locale_dir=None):
     global REGISTERED_DOMAINS
     global CURRENT_TRANSLATION
 
-    if not hasattr(__builtin__, '_'):
+    if not hasattr(__builtin__, '_') or not CURRENT_TRANSLATION:
         # TODO
         raise Exception('Localization has not been setup')
 
