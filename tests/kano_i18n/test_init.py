@@ -4,6 +4,7 @@ import pytest
 from gettext import GNUTranslations, NullTranslations
 from test.test_support import EnvironmentVarGuard
 
+import kano_i18n.init
 from kano_i18n.init import register_domain, install, get_current_translation
 
 
@@ -35,6 +36,12 @@ def test_env():
         yield env
 
 
+def setup_function(function):
+    # Clear global variables
+    kano_i18n.init.REGISTERED_DOMAINS.clear()
+    kano_i18n.CURRENT_TRANSLATION = None
+
+
 def test_register_domain_fallback(tmpdir, test_env):
     test_env['LANG'] = 'en_GB'
     locale_dir = tmpdir.ensure('en_GB', 'LC_MESSAGES', dir=True)
@@ -60,3 +67,30 @@ def test_register_domain_fallback(tmpdir, test_env):
     # No translation defined
     assert _('Hi') == 'Hi'
     assert _('nudge nudge') == 'wink wink'
+
+
+def test_register_domain_fallback_duplicate():
+    """Registering the same domain multiple times should do nothing"""
+
+    install('app-domain')
+
+    register_domain('domain-1')
+
+    # inspect domain setup
+    current_translation = get_current_translation()
+    assert current_translation is not None
+    assert current_translation._fallback is not None
+    assert current_translation._fallback._fallback is None
+
+    # register domain again
+    register_domain('domain-1')
+    current_translation = get_current_translation()
+    assert current_translation._fallback is not None
+    assert current_translation._fallback._fallback is None
+
+    # register different domain
+    register_domain('domain-2')
+
+    current_translation = get_current_translation()
+    assert current_translation._fallback is not None
+    assert current_translation._fallback._fallback is not None
