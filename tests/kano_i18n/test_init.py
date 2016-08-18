@@ -8,7 +8,7 @@ import kano_i18n.init
 from kano_i18n.init import register_domain, install, get_current_translation
 
 
-# From cpython test_gettext.py
+# Test mo file (from cpython test_gettext.py)
 GNU_MO_DATA = '''\
 3hIElQAAAAAGAAAAHAAAAEwAAAALAAAAfAAAAAAAAACoAAAAFQAAAKkAAAAjAAAAvwAAAKEAAADj
 AAAABwAAAIUBAAALAAAAjQEAAEUBAACZAQAAFgAAAN8CAAAeAAAA9gIAAKEAAAAVAwAABQAAALcD
@@ -64,9 +64,8 @@ def test_register_domain_fallback(tmpdir, test_env):
     assert current_translation._fallback._fallback is None
     assert isinstance(current_translation._fallback, GNUTranslations)
 
-    # No translation defined
     assert _('Hi') == 'Hi'
-    assert _('nudge nudge') == 'wink wink'
+    assert _('nudge nudge') == 'wink wink'  # Translation comes from domain-1
 
 
 def test_register_domain_fallback_duplicate():
