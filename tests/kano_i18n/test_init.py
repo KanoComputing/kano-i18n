@@ -39,7 +39,8 @@ def test_env():
 def setup_function(function):
     # Clear global variables before each test
     kano_i18n.init.REGISTERED_DOMAINS.clear()
-    kano_i18n.CURRENT_TRANSLATION = None
+    kano_i18n.init.CURRENT_TRANSLATION = None
+    kano_i18n.init.DOMAINS_TO_REGISTER = []
 
 
 def test_register_domain_fallback(tmpdir, test_env):
@@ -90,3 +91,23 @@ def test_register_domain_fallback_duplicate():
     register_domain('domain-2')
     assert current_translation._fallback is not None
     assert current_translation._fallback._fallback is not None
+
+
+def test_register_domain_deffered():
+    """Registering a domain before install is called should queue it up to be
+    registered later"""
+
+    assert get_current_translation() is None
+
+    register_domain('domain-1')
+    register_domain('domain-1')
+    register_domain('domain-2')
+    assert get_current_translation() is None
+
+    install('test-domain')
+
+    current_translation = get_current_translation()
+    assert current_translation is not None
+    assert current_translation._fallback is not None  # domain-1
+    assert current_translation._fallback._fallback is not None  # domain-2
+    assert current_translation._fallback._fallback._fallback is None

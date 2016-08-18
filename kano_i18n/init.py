@@ -10,6 +10,7 @@ import gettext
 import __builtin__
 
 REGISTERED_DOMAINS = set()
+DOMAINS_TO_REGISTER = []
 CURRENT_TRANSLATION = None
 
 
@@ -24,19 +25,30 @@ def install(app, locale_dir=None):
 
     CURRENT_TRANSLATION = trans
 
+    if len(DOMAINS_TO_REGISTER) > 0:
+        for domain in DOMAINS_TO_REGISTER:
+            register_domain(*domain)
+
 
 def register_domain(domain, locale_dir=None):
     """
     Register a domain as a fallback to the currently installed translation.
+    If there is no currently installed translation then queue it up to be
+    registered when `install` is called.
+
     Used by library modules to register their translations on top of the current
     app translation.
     """
     global REGISTERED_DOMAINS
     global CURRENT_TRANSLATION
+    global DOMAINS_TO_REGISTER
 
     if not hasattr(__builtin__, '_') or not CURRENT_TRANSLATION:
-        # TODO
-        raise Exception('Localization has not been setup')
+        # Install hasn't been called yet so defer setup
+        DOMAINS_TO_REGISTER.append(
+            (domain, locale_dir)
+        )
+        return
 
     if domain in REGISTERED_DOMAINS:
         # Already setup so we bail early here
