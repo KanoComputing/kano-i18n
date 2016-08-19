@@ -1,3 +1,10 @@
+kano-i18n (3.5-1) unstable; urgency=low
+
+  * Added `register_domain` function for libraries to register their
+    translations.
+
+ -- Team Kano <dev@kano.me>  Fri, 19 Aug 2016 15:45:00 +0000
+
 kano-i18n (1.0-1) unstable; urgency=low
 
   * Initial release.
