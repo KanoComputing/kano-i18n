@@ -18,7 +18,7 @@ def install(app, locale_dir=None):
     global CURRENT_TRANSLATION
 
     # N_() defined globally for deferred translation
-    __builtin__.__dict__['N_'] = lambda msg: msg
+    __builtin__.__dict__['N_'] = lambda msg: unicode(msg)
 
     trans = gettext.translation(app, localedir=locale_dir, fallback=True, codeset=None)
     trans.install(True, names=None)

@@ -1,6 +1,7 @@
 import base64
 import os
 import pytest
+import __builtin__
 from gettext import GNUTranslations, NullTranslations
 from test.test_support import EnvironmentVarGuard
 
@@ -111,3 +112,12 @@ def test_register_domain_deffered():
     assert current_translation._fallback is not None  # domain-1
     assert current_translation._fallback._fallback is not None  # domain-2
     assert current_translation._fallback._fallback._fallback is None
+
+
+def test_N__deffered_translation():
+    install('app-domain')
+
+    assert 'N_' in __builtin__.__dict__
+
+    translated_string = N_('foo')
+    assert isinstance(translated_string, unicode)
