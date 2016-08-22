@@ -1,3 +1,4 @@
+# coding: utf-8
 import base64
 import os
 import pytest
@@ -119,5 +120,26 @@ def test_N__deffered_translation():
 
     assert 'N_' in __builtin__.__dict__
 
-    translated_string = N_('foo')
+    translated_string = N_('¡Hola!')
     assert isinstance(translated_string, unicode)
+
+    translated_string = N_(u'¡Hola!')
+    assert isinstance(translated_string, unicode)
+
+
+def test_register_domain_stubs(tmpdir, test_env):
+    test_env['LANG'] = 'en_GB'
+    locale_dir = tmpdir.ensure('en_GB', 'LC_MESSAGES', dir=True)
+
+    domain1_mo = os.path.join(locale_dir.strpath, 'domain-1.mo')
+    with open(domain1_mo, 'wb') as fp:
+        fp.write(base64.decodestring(GNU_MO_DATA))
+
+    register_domain('domain-1', locale_dir=tmpdir.strpath)
+
+    assert _('Hi') == 'Hi'
+    assert _('nudge nudge') == 'nudge nudge'
+
+    install('test-app')
+
+    assert _('nudge nudge') == 'wink wink'  # Translation comes from domain-1
