@@ -148,6 +148,14 @@ def test_register_domain_stubs(tmpdir, test_env):
     assert _('Hi') == 'Hi'
     assert _('nudge nudge') == 'nudge nudge'
 
+    # when using stubs ensure all strings are ascii encoded
+    assert type(_(u'¡Hola!')) is str
+    assert type(N_(u'¡Hola!')) is str
+
+    # shouldn't throw error
+    assert _(u'¡Hola!').decode('ascii') == '?Hola!'
+
     install('test-app')
 
     assert _('nudge nudge') == 'wink wink'  # Translation comes from domain-1
+    assert type(_('hi!')) is unicode

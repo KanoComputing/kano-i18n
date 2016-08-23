@@ -20,6 +20,12 @@ def deferred_translation(msg):
     return unicode(msg, encoding='utf8')  # Assume original string is utf8 encoded
 
 
+def translation_stub(msg):
+    if isinstance(msg, unicode):
+        return msg.encode('ascii', 'replace')
+    return msg
+
+
 def install(app, locale_dir=None):
     global CURRENT_TRANSLATION
 
@@ -55,8 +61,8 @@ def register_domain(domain, locale_dir=None):
             (domain, locale_dir)
         )
         # and register stubs for _ and N_
-        __builtin__.__dict__['_'] = lambda msg: msg
-        __builtin__.__dict__['N_'] = lambda msg: msg
+        __builtin__.__dict__['_'] = translation_stub
+        __builtin__.__dict__['N_'] = translation_stub
         return
 
     if domain in REGISTERED_DOMAINS:
