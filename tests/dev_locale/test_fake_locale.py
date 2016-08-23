@@ -1,4 +1,11 @@
-# coding:utf8
+# coding: utf-8
+# test_fake_locale.py
+#
+# Copyright (C) 2016 Kano Computing Ltd.
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
+#
+# Tests for fake_locale script
+#
 
 from dev_locale.translate import trans_str
 

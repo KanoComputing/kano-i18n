@@ -1,4 +1,12 @@
 # coding: utf-8
+# test_init.py
+#
+# Copyright (C) 2016 Kano Computing Ltd.
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
+#
+# Tests for kano_i18n.init
+#
+
 import base64
 import os
 import pytest
