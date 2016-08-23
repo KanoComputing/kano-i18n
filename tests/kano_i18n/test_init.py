@@ -1,6 +1,16 @@
+# coding: utf-8
+# test_init.py
+#
+# Copyright (C) 2016 Kano Computing Ltd.
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
+#
+# Tests for kano_i18n.init
+#
+
 import base64
 import os
 import pytest
+import __builtin__
 from gettext import GNUTranslations, NullTranslations
 from test.test_support import EnvironmentVarGuard
 
@@ -111,3 +121,41 @@ def test_register_domain_deffered():
     assert current_translation._fallback is not None  # domain-1
     assert current_translation._fallback._fallback is not None  # domain-2
     assert current_translation._fallback._fallback._fallback is None
+
+
+def test_N__deffered_translation():
+    install('app-domain')
+
+    assert 'N_' in __builtin__.__dict__
+
+    translated_string = N_('¡Hola!')
+    assert isinstance(translated_string, unicode)
+
+    translated_string = N_(u'¡Hola!')
+    assert isinstance(translated_string, unicode)
+
+
+def test_register_domain_stubs(tmpdir, test_env):
+    test_env['LANG'] = 'en_GB'
+    locale_dir = tmpdir.ensure('en_GB', 'LC_MESSAGES', dir=True)
+
+    domain1_mo = os.path.join(locale_dir.strpath, 'domain-1.mo')
+    with open(domain1_mo, 'wb') as fp:
+        fp.write(base64.decodestring(GNU_MO_DATA))
+
+    register_domain('domain-1', locale_dir=tmpdir.strpath)
+
+    assert _('Hi') == 'Hi'
+    assert _('nudge nudge') == 'nudge nudge'
+
+    # when using stubs ensure all strings are ascii encoded
+    assert type(_(u'¡Hola!')) is str
+    assert type(N_(u'¡Hola!')) is str
+
+    # shouldn't throw error
+    assert _(u'¡Hola!').decode('ascii') == '?Hola!'
+
+    install('test-app')
+
+    assert _('nudge nudge') == 'wink wink'  # Translation comes from domain-1
+    assert type(_('hi!')) is unicode
