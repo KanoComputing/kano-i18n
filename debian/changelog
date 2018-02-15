@@ -1,4 +1,4 @@
-kano-i18n (3.15-1) unstable; urgency=low
+kano-i18n (3.15.0-1) unstable; urgency=low
 
   * Added standard function to locate translated image files.
 
