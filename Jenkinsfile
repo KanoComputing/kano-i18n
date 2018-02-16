@@ -4,6 +4,8 @@
 import build_deb_pkg
 
 
+def repo_name = 'kano-i18n'
+
 stage ('Build') {
-    build_deb_pkg 'kano-i18n', env.BRANCH_NAME, 'scratch'
+    autobuild_repo_pkg "$repo_name"
 }
