@@ -33,8 +33,9 @@ def get_path(base, relative, default='en_US'):
         path: the path to the asset.
     """
     (code, encoding) = locale.getdefaultlocale()
-    best = os.path.join(base, code, relative)
-    if os.path.exists(best):
-        return best
+    if code:
+        best = os.path.join(base, code, relative)
+        if os.path.exists(best):
+            return best
     else:
         return os.path.join(base, default, relative)
